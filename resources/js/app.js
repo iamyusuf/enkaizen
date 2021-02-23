@@ -1,11 +1,15 @@
 // require('./bootstrap');
+import axios from "axios";
 import Vue from 'vue'
 import App from "./components/App";
 import VueRouter from "vue-router";
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
+
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "toastr/build/toastr.min.css";
+
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -13,14 +17,17 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueRouter);
 
+const token = () => localStorage.getItem('storage');
 
+axios.defaults.headers.common['Authorization'] = `Bearer ${token()}`;
+window.axios = axios;
 
 
 const authRequired = (to, from, next) => {
   if (localStorage.getItem('token') != null && localStorage.getItem('token').length > 0) {
     next()
   } else {
-    localStorage.removeItem('token')
+    localStorage.removeItem('token');
     next('/login')
   }
 };
