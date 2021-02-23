@@ -127,6 +127,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getToken: function getToken() {}
+  },
+  mounted: function mounted() {
+    var _JSON$parse;
+
+    var userId = (_JSON$parse = JSON.parse(localStorage.getItem('user'))) === null || _JSON$parse === void 0 ? void 0 : _JSON$parse.id;
+    Echo["private"]("downloaded.".concat(userId)).listen('ImageHandled', function (e) {
+      console.log({
+        e: e
+      });
+    });
   }
 });
 
@@ -206,6 +216,7 @@ __webpack_require__.r(__webpack_exports__);
         var token = res.data.token;
         (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.headers.common.Authorization) = "Bearer ".concat(token);
         localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
 
         _this.$router.push({
           path: '/'

@@ -54,7 +54,7 @@
 
         if (!this.url) {
           this.error = 'required';
-          return ;
+          return;
         }
 
         this.$bvModal.hide('modal-1');
@@ -72,7 +72,14 @@
 
       getToken() {
 
-      }
+      },
+    },
+
+    mounted() {
+      const userId = JSON.parse(localStorage.getItem('user'))?.id;
+      Echo.private(`downloaded.${userId}`).listen('ImageHandled', e => {
+        console.log({e})
+      })
     }
   }
 </script>

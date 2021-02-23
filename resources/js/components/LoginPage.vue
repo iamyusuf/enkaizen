@@ -60,6 +60,7 @@
           const token = res.data.token;
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
           localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(res.data.user));
           this.$router.push({ path: '/'})
         })
 

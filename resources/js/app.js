@@ -1,4 +1,4 @@
-// require('./bootstrap');
+require('./bootstrap');
 import axios from "axios";
 import Vue from 'vue'
 import App from "./components/App";
