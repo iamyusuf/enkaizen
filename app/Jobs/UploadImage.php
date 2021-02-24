@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\ImageHandled;
 use App\Models\Image;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -38,17 +39,21 @@ class UploadImage implements ShouldQueue
      */
     public function handle()
     {
-        $file = file_get_contents($this->url);
 
-        $name = substr($this->url, strrpos($this->url, '/') + 1);
-        $fileName = time() . $name;
-        Storage::put($fileName, $file);
+        try {
+            $file = file_get_contents($this->url);
+            $name = substr($this->url, strrpos($this->url, '/') + 1);
+            $fileName = time() . $name;
+            Storage::put($fileName, $file);
+            $newImage = new Image([
+                'user_id' => $this->userId,
+                'path'    => $fileName
+            ]);
+            $newImage->save();
 
-        $newImage = new Image([
-           'user_id' => $this->userId,
-           'path' =>  $fileName
-        ]);
-
-        $newImage->save();
+            ImageHandled::broadcast($newImage);
+        } catch (\Exception $e) {
+            
+        }
     }
 }
