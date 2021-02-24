@@ -53,7 +53,7 @@ class UploadImage implements ShouldQueue
 
             ImageHandled::broadcast($newImage);
         } catch (\Exception $e) {
-            
+
         }
     }
 }

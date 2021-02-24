@@ -115,7 +115,8 @@
 
 
       window.Echo.private(`/downloaded.${userId}`).listen('ImageHandled', e => {
-        console.log({e})
+        toastr.success('Completedd');
+        this.fetchImages();
       });
 
       this.fetchImages();

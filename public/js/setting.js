@@ -170,7 +170,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    var _JSON$parse;
+    var _JSON$parse,
+        _this4 = this;
 
     var userId = (_JSON$parse = JSON.parse(localStorage.getItem('user'))) === null || _JSON$parse === void 0 ? void 0 : _JSON$parse.id;
 
@@ -195,9 +196,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     });
     window.Echo["private"]("/downloaded.".concat(userId)).listen('ImageHandled', function (e) {
-      console.log({
-        e: e
-      });
+      toastr__WEBPACK_IMPORTED_MODULE_2__.success('Completedd');
+
+      _this4.fetchImages();
     });
     this.fetchImages();
   }
