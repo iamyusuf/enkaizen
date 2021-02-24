@@ -27,6 +27,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../api */ "./resources/js/api.js");
 /* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
 /* harmony import */ var toastr__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(toastr__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -67,7 +68,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 // import axios from 'axios';
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -116,6 +122,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 if (res.status === 200) {
                   toastr__WEBPACK_IMPORTED_MODULE_2__.success('Processing...');
+                  _this.url = '';
                 }
 
               case 10:
@@ -126,17 +133,73 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    getToken: function getToken() {}
+    logout: function logout() {
+      var _this2 = this;
+
+      _api__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/logout')["finally"](function () {
+        localStorage.removeItem('token');
+
+        _this2.$router.push({
+          path: '/login'
+        });
+      });
+    },
+    fetchImages: function fetchImages() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _api__WEBPACK_IMPORTED_MODULE_1__.default.get('/api/images');
+
+              case 2:
+                res = _context2.sent;
+                _this3.images = res.data;
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    }
   },
   mounted: function mounted() {
     var _JSON$parse;
 
     var userId = (_JSON$parse = JSON.parse(localStorage.getItem('user'))) === null || _JSON$parse === void 0 ? void 0 : _JSON$parse.id;
-    Echo["private"]("downloaded.".concat(userId)).listen('ImageHandled', function (e) {
+
+    var token = function token() {
+      return localStorage.getItem('token');
+    };
+
+    console.log({
+      userId: userId
+    });
+    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_3__.default({
+      // authEndpoint: '/broadcasting/auth',
+      broadcaster: 'pusher',
+      key: 'f6a5eea94d94ec60d9f4',
+      cluster: "ap1",
+      forceTLS: true,
+      host: window.location.hostname + ':6001',
+      auth: {
+        headers: {
+          Authorization: 'Bearer ' + token()
+        }
+      }
+    });
+    window.Echo["private"]("/downloaded.".concat(userId)).listen('ImageHandled', function (e) {
       console.log({
         e: e
       });
     });
+    this.fetchImages();
   }
 });
 
@@ -12555,10 +12618,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "d-flex justify-content-end pt-2" }, [
       _c(
         "div",
-        { staticClass: "col-md-4 mt-3" },
+        { staticClass: "col" },
         [
           _c(
             "b-button",
@@ -12631,10 +12694,29 @@ var render = function() {
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col text-right" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", on: { click: _vm.logout } },
+          [_vm._v("Logout")]
+        )
+      ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "row" })
+    _c(
+      "div",
+      { staticClass: "d-flex mt-3 justify-content-start" },
+      _vm._l(_vm.images, function(image) {
+        return _c("div", { key: image.id, staticClass: "col" }, [
+          _c("img", {
+            attrs: { src: image.path, alt: "Invalid", width: "200px" }
+          })
+        ])
+      }),
+      0
+    )
   ])
 }
 var staticRenderFns = []

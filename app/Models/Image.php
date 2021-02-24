@@ -17,6 +17,6 @@ class Image extends Model
 
     public function getPathAttribute($value)
     {
-        return asset('public/' . $value);
+        return asset('storage/' . $value);
     }
 }

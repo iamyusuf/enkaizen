@@ -20,6 +20,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('image', [ImageController::class, 'store']);
+    Route::post('logout', [AuthController::class, 'logout']);
 });
 
 Route::get('images', [ImageController::class, 'index']);

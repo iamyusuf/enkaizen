@@ -20,9 +20,10 @@ import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'f6a5eea94d94ec60d9f4',
-    cluster: "ap1",
-    forceTLS: true
-});
+// window.Echo = new Echo({
+//     // authEndpoint: '/broadcasting/auth',
+//     broadcaster: 'pusher',
+//     key: 'f6a5eea94d94ec60d9f4',
+//     cluster: "ap1",
+//     forceTLS: true
+// });
