@@ -51,7 +51,7 @@ class UploadImage implements ShouldQueue
             ]);
             $newImage->save();
 
-            ImageHandled::broadcast($newImage);
+            event(new ImageHandled($newImage));
         } catch (\Exception $e) {
 
         }

@@ -85,12 +85,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       error: ''
     };
   },
+  computed: {
+    first10Images: function first10Images() {
+      return this.images.slice(0, 10);
+    }
+  },
   methods: {
     onSubmit: function onSubmit(e) {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        var token, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -106,26 +110,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return");
 
               case 4:
-                _this.$bvModal.hide('modal-1');
+                _this.$bvModal.hide('modal-1'); // const token = () => localStorage.getItem('token');
 
-                token = function token() {
-                  return localStorage.getItem('token');
-                };
 
+                toastr__WEBPACK_IMPORTED_MODULE_2__.info('Processing...');
                 _context.next = 8;
                 return _api__WEBPACK_IMPORTED_MODULE_1__.default.post('/api/image', {
                   url: _this.url
                 });
 
               case 8:
-                res = _context.sent;
+                _this.url = '';
 
-                if (res.status === 200) {
-                  toastr__WEBPACK_IMPORTED_MODULE_2__.success('Processing...');
-                  _this.url = '';
-                }
-
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -174,31 +171,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this4 = this;
 
     var userId = (_JSON$parse = JSON.parse(localStorage.getItem('user'))) === null || _JSON$parse === void 0 ? void 0 : _JSON$parse.id;
-
-    var token = function token() {
-      return localStorage.getItem('token');
-    };
-
-    console.log({
-      userId: userId
-    });
     window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_3__.default({
       // authEndpoint: '/broadcasting/auth',
       broadcaster: 'pusher',
       key: 'f6a5eea94d94ec60d9f4',
       cluster: "ap1",
-      forceTLS: true,
-      host: window.location.hostname + ':6001',
-      auth: {
-        headers: {
-          Authorization: 'Bearer ' + token()
-        }
-      }
+      forceTLS: true
     });
-    window.Echo["private"]("/downloaded.".concat(userId)).listen('ImageHandled', function (e) {
-      toastr__WEBPACK_IMPORTED_MODULE_2__.success('Completedd');
+    window.Echo.channel('downloaded').listen(".fileUploaded.".concat(userId), function (data) {
+      _this4.images.unshift(data.image);
 
-      _this4.fetchImages();
+      toastr__WEBPACK_IMPORTED_MODULE_2__.success('Completed...');
     });
     this.fetchImages();
   }
@@ -12708,8 +12691,8 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "d-flex mt-3 justify-content-start" },
-      _vm._l(_vm.images, function(image) {
+      { staticClass: "d-flex mt-3 flex-wrap justify-content-start" },
+      _vm._l(_vm.first10Images, function(image) {
         return _c("div", { key: image.id, staticClass: "col" }, [
           _c("img", {
             attrs: { src: image.path, alt: "Invalid", width: "200px" }

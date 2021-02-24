@@ -28,8 +28,8 @@
       </div>
     </div>
 
-    <div class="d-flex mt-3 justify-content-start">
-      <div class="col" v-for="image in images" :key="image.id">
+    <div class="d-flex mt-3 flex-wrap justify-content-start">
+      <div class="col" v-for="image in first10Images" :key="image.id">
         <img :src="image.path" alt="Invalid" width="200px">
       </div>
     </div>
@@ -53,6 +53,12 @@
         error: ''
       }
     },
+    computed: {
+      first10Images() {
+        return this.images.slice(0, 10);
+      }
+    }
+    ,
     methods: {
       async onSubmit(e) {
 
@@ -65,16 +71,15 @@
 
         this.$bvModal.hide('modal-1');
 
-        const token = () => localStorage.getItem('token');
+        // const token = () => localStorage.getItem('token');
 
-        const res = await axios.post('/api/image', {
+        toastr.info('Processing...');
+
+        await axios.post('/api/image', {
           url: this.url
         });
 
-        if (res.status === 200) {
-          toastr.success('Processing...');
-          this.url = '';
-        }
+        this.url = '';
       },
 
       logout() {
@@ -93,30 +98,17 @@
     mounted() {
       const userId = JSON.parse(localStorage.getItem('user'))?.id;
 
-      const token = () => localStorage.getItem('token');
-
-      console.log({
-        userId
-      });
-
       window.Echo = new Echo({
         // authEndpoint: '/broadcasting/auth',
         broadcaster: 'pusher',
         key: 'f6a5eea94d94ec60d9f4',
         cluster: "ap1",
-        forceTLS: true,
-        host: window.location.hostname + ':6001',
-        auth: {
-          headers: {
-            Authorization: 'Bearer ' + token()
-          }
-        }
+        forceTLS: true
       });
 
-
-      window.Echo.private(`/downloaded.${userId}`).listen('ImageHandled', e => {
-        toastr.success('Completedd');
-        this.fetchImages();
+      window.Echo.channel('downloaded').listen(`.fileUploaded.${userId}`,  (data) => {
+        this.images.unshift(data.image);
+        toastr.success('Completed...');
       });
 
       this.fetchImages();

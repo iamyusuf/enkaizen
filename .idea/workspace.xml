@@ -2,11 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71d1bc7c-203a-48fb-b33f-a76c896fb2f9" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/enkaizen.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/enkaizen.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Events/ImageHandled.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Events/ImageHandled.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Jobs/UploadImage.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Jobs/UploadImage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/BroadcastServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/BroadcastServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/setting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/js/components/HomePage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/resources/js/components/HomePage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/channels.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/channels.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -152,6 +158,7 @@
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
       <path value="$PROJECT_DIR$/vendor/paragonie/sodium_compat" />
       <path value="$PROJECT_DIR$/vendor/pusher/pusher-php-server" />
+      <path value="$PROJECT_DIR$/vendor/predis/predis" />
     </include_path>
   </component>
   <component name="ProjectId" id="1oqSchLDLuLBiMJ8Ue42l6CfQ3j" />
